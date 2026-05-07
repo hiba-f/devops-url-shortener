@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>URL Shortener</title>
+
+    <style>
+
+        body{
+            font-family: Arial;
+            background:#f4f4f4;
+            text-align:center;
+            margin-top:100px;
+        }
+
+        .container{
+            background:white;
+            width:400px;
+            margin:auto;
+            padding:30px;
+            border-radius:10px;
+            box-shadow:0 0 10px rgba(0,0,0,0.2);
+        }
+
+        input{
+            width:90%;
+            padding:10px;
+            margin:10px;
+        }
+
+        button{
+            padding:10px 20px;
+            background:#007bff;
+            color:white;
+            border:none;
+            cursor:pointer;
+        }
+
+        a{
+            color:green;
+            font-weight:bold;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>URL Shortener</h1>
+
+        <form method="POST">
+
+            <input type="text" name="url" placeholder="Enter URL" required>
+
+            <br>
+
+            <button type="submit">Shorten</button>
+
+        </form>
+
+        {% if short_url %}
+
+            <p>Short URL:</p>
+
+            <a href="{{ short_url }}">{{ short_url }}</a>
+
+        {% endif %}
+
+    </div>
+
+</body>
+</html>
