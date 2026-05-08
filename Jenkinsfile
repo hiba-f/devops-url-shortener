@@ -4,14 +4,6 @@ pipeline {
 
     stages {
 
-        stage('Clone Repository') {
-
-            steps {
-
-                git 'https://github.com/hiba-f/devops-url-shortener.git'
-            }
-        }
-
         stage('Build Docker Containers') {
 
             steps {
@@ -26,6 +18,19 @@ pipeline {
 
                 sh 'docker ps'
             }
+        }
+    }
+
+    post {
+
+        success {
+
+            echo 'Pipeline executed successfully!'
+        }
+
+        failure {
+
+            echo 'Pipeline failed!'
         }
     }
 }
