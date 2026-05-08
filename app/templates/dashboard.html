@@ -5,35 +5,60 @@
 
     <title>Analytics Dashboard</title>
 
-    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <style>
 
-        body{
-            font-family:Arial;
-            padding:40px;
-            background:#f4f4f4;
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            padding: 40px;
         }
 
-        table{
-            width:100%;
-            border-collapse:collapse;
-            background:white;
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0px 5px 20px rgba(0,0,0,0.1);
+            max-width: 900px;
+            margin: auto;
         }
 
-        th, td{
-            border:1px solid #ddd;
-            padding:10px;
+        h1 {
+            color: #2c3e50;
         }
 
-        th{
-            background:#007bff;
-            color:white;
+        .stats {
+            margin-bottom: 30px;
         }
 
-        .card{
-            background:white;
-            padding:20px;
-            margin-bottom:20px;
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 30px;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background: #007bff;
+            color: white;
+            padding: 12px;
+        }
+
+        td {
+            padding: 12px;
+            text-align: center;
+        }
+
+        tr:nth-child(even) {
+            background: #f2f2f2;
+        }
+
+        canvas {
+            margin-top: 30px;
         }
 
     </style>
@@ -42,62 +67,72 @@
 
 <body>
 
-    <div class="card">
+    <div class="container">
 
         <h1>Analytics Dashboard</h1>
 
-        <h2>Total Clicks: {{ clicks }}</h2>
+        <div class="stats">
 
-        <h3>Short Code: {{ short_code }}</h3>
+            <h2>Short Code: {{ short_code }}</h2>
+
+            <h2>Total Clicks: {{ clicks }}</h2>
+
+        </div>
+
+        <canvas id="clickChart"></canvas>
+
+        <table>
+
+            <tr>
+                <th>Browser</th>
+                <th>Timestamp</th>
+            </tr>
+
+            {% for item in analytics %}
+
+            <tr>
+                <td>{{ item.browser }}</td>
+                <td>{{ item.timestamp }}</td>
+            </tr>
+
+            {% endfor %}
+
+        </table>
 
     </div>
 
-    <div class="card">
+    <script>
 
-        <canvas id="myChart"></canvas>
+        const ctx = document.getElementById('clickChart');
 
-    </div>
+        new Chart(ctx, {
 
-    <table>
+            type: 'bar',
 
-        <tr>
-            <th>IP Address</th>
-            <th>Browser</th>
-            <th>Timestamp</th>
-        </tr>
+            data: {
 
-        {% for item in analytics %}
+                labels: ['Clicks'],
 
-        <tr>
-            <td>{{ item.ip }}</td>
-            <td>{{ item.browser }}</td>
-            <td>{{ item.timestamp }}</td>
-        </tr>
+                datasets: [{
+                    label: 'Total Clicks',
+                    data: [{ clicks }],
+                    borderWidth: 1
+                }]
+            },
 
-        {% endfor %}
+            options: {
 
-    </table>
+                scales: {
 
-   <script>
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
 
-    const totalClicks = Number("{{ clicks }}");
+    </script>
 
-    new Chart(document.getElementById('myChart'), {
-
-        type: 'line',
-
-        data: {
-
-            labels: ['Clicks'],
-
-            datasets: [{
-                label: 'Total Clicks',
-                data: [totalClicks]
-            }]
-        }
-    });
-
-</script>
 </body>
 
 </html>

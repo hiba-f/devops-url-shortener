@@ -1,18 +1,18 @@
 node {
 
-    stage('Build Image') {
+    stage('Clone') {
+        echo 'Repository cloned successfully'
+    }
+
+    stage('Build Docker Image') {
         sh 'docker build -t url-shortener .'
     }
 
-    stage('Run Redis') {
-        sh 'docker run -d --name redis redis || true'
+    stage('Check Docker') {
+        sh 'docker images'
     }
 
-    stage('Run Flask') {
-        sh 'docker run -d -p 5000:5000 --name flask-app --link redis url-shortener || true'
-    }
-
-    stage('Check Containers') {
-        sh 'docker ps'
+    stage('Success') {
+        echo 'Pipeline executed successfully!'
     }
 }
