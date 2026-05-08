@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Analytics Dashboard</title>
+
+    
+    <style>
+
+        body{
+            font-family:Arial;
+            padding:40px;
+            background:#f4f4f4;
+        }
+
+        table{
+            width:100%;
+            border-collapse:collapse;
+            background:white;
+        }
+
+        th, td{
+            border:1px solid #ddd;
+            padding:10px;
+        }
+
+        th{
+            background:#007bff;
+            color:white;
+        }
+
+        .card{
+            background:white;
+            padding:20px;
+            margin-bottom:20px;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <div class="card">
+
+        <h1>Analytics Dashboard</h1>
+
+        <h2>Total Clicks: {{ clicks }}</h2>
+
+        <h3>Short Code: {{ short_code }}</h3>
+
+    </div>
+
+    <div class="card">
+
+        <canvas id="myChart"></canvas>
+
+    </div>
+
+    <table>
+
+        <tr>
+            <th>IP Address</th>
+            <th>Browser</th>
+            <th>Timestamp</th>
+        </tr>
+
+        {% for item in analytics %}
+
+        <tr>
+            <td>{{ item.ip }}</td>
+            <td>{{ item.browser }}</td>
+            <td>{{ item.timestamp }}</td>
+        </tr>
+
+        {% endfor %}
+
+    </table>
+
+   <script>
+
+    const totalClicks = Number("{{ clicks }}");
+
+    new Chart(document.getElementById('myChart'), {
+
+        type: 'line',
+
+        data: {
+
+            labels: ['Clicks'],
+
+            datasets: [{
+                label: 'Total Clicks',
+                data: [totalClicks]
+            }]
+        }
+    });
+
+</script>
+</body>
+
+</html>
